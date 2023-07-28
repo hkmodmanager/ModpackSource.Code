@@ -1,0 +1,33 @@
+{
+  "name": "modpacksource",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/main.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hkmodmanager/ModpackSource.Code.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prCheck": "node ./dist/main.js pr",
+    "schedule": "node ./dist/main.js schedule"
+  },
+  "author": "HKLab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hkmodmanager/ModpackSource.Code/issues"
+  },
+  "homepage": "https://github.com/hkmodmanager/ModpackSource.Code#readme",
+  "dependencies": {
+    "@octokit/rest": "^20.0.1",
+    "compressing": "^1.9.0",
+    "jsonschema": "^1.4.1",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@octokit/types": "^11.1.0",
+    "@types/node": "^20.4.5",
+    "typescript": "^5.1.6"
+  }
+}
