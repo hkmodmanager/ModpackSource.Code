@@ -55,18 +55,21 @@ for (const pr of prs.data) {
             modifiedFiles.push(file.filename);
             const checkFile = file.filename + ".authors";
             let req = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${checkFile}`, options);
-            let content = "";
             if (req.status == 200) {
-                content = (await req.text()).trim() + "\n";
+                continue;
             }
-            content += pr.user?.id ?? 0;
-            await rest.repos.createOrUpdateFileContents({
-                repo: REPO_NAME,
-                owner: REPO_OWNER,
-                path: checkFile,
-                content: Buffer.from(content, 'utf8').toString("base64"),
-                message: "Update author"
-            });
+            const content = (pr.user?.id ?? 0) + "\n";
+            try {
+                await rest.repos.createOrUpdateFileContents({
+                    repo: REPO_NAME,
+                    owner: REPO_OWNER,
+                    path: checkFile,
+                    content: Buffer.from(content, 'utf8').toString("base64"),
+                    message: "Update author"
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
         console.log("Merge pr: " + pr.id);
     } catch (e) {
@@ -127,7 +130,7 @@ async function entry(path: string, source: HollowKnightModManagerPackageProvider
             packages: [],
             icon: defContent.icon
         };
-    } else if(!source) return;
+    } else if (!source) return;
     for (const dirent of readdirSync(real, {
         withFileTypes: true,
         recursive: false,
